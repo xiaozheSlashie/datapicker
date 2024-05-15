@@ -13,6 +13,11 @@ const Calendar = Vue.component('calendar', {
       selectedDate: null,
       currDateCursor: null,
       dayLabels: null,
+      state :[
+        'Pending',      // 0: 即將成團
+        'Confirmed',    // 1: 已成團
+        'NotAvailable', // 2: 不可預定
+      ],
       year_labels:[]
     };
   },
@@ -31,6 +36,7 @@ const Calendar = Vue.component('calendar', {
     }
   },
   computed: {
+  
     lastDayOfMonth(){
         return  new Date(this.currDateCursor.getFullYear(), this.currDateCursor.getMonth() + 1, 0);
     },
@@ -58,10 +64,14 @@ const Calendar = Vue.component('calendar', {
       endDate = dateFns.addDays(startDate, this.lastDay+daysNeededForLastMonth-1);
       return dateFns.eachDay(startDate,endDate).map(date => ({
         date,
-        isCurrentMonth:  dateFns.isSameMonth(cursorDate, date),
+        isCurrentMonth: dateFns.isSameMonth(cursorDate, date),
         isToday: dateFns.isToday(date),
         isSelected: dateFns.isSameDay(this.selectedDate, date),
         isnotCurrentMonth:  !dateFns.isSameMonth(cursorDate, date),
+        isPending : this.isPending(date.getDate()-1),
+        isConfirmed : this.isConfirmed(date.getDate()-1),
+        isNotAvailable : this.isNotAvailable(date.getDate()-1),
+        isbeforecurrentdate : this.isbeforecurrentdate(date),
       }));
     },
   },
@@ -72,12 +82,45 @@ const Calendar = Vue.component('calendar', {
     }
   },
   methods: {
+    isbeforecurrentdate(i){
+        if(i<this.selectedDate){
+          return true
+        }else{
+          return false
+        }
+    },
+    isPending(i){
+      // console.log(i)
+      if(this.state[i] == 'Pending'){
+        return true
+      }else{
+        return false
+      }
+    },
+    isConfirmed(i){
+      if(this.state[i] == 'Confirmed'){
+        return true
+      }else{
+        return false
+      }
+    },
+    isNotAvailable(i){
+      if(this.state[i] != 'Confirmed' &&this.state[i] != 'Pending' || this.state[i]=='NotAvailable'){
+        return true
+      }else{
+        return false
+      }
+    },
     dayClassObj(day) {
       return {
         'today' : day.isToday,
         'current': day.isCurrentMonth,
         'selected': day.isSelected,
         'non_current': !day.isCurrentMonth,
+        'Pending' :day.isPending,
+        'Confirmed' :day.isConfirmed,
+        'NotAvailable': day.isNotAvailable,
+        'isbeforecurrentdate': day.isbeforecurrentdate
       };
     },
     nextMonth() {

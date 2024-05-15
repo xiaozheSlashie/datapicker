@@ -40,7 +40,7 @@ body {
   border-radius: 3px;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  width: 300px;
+  width: 25rem;
   padding: 0.25rem 0.5rem 1rem 0.5rem;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
@@ -86,8 +86,33 @@ body {
   color: red;
   visibility: hidden;
 }
+.calendar > .day.Pending {
+  background-image: url("./img/triangle.png");
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: 30%; /* 調整圖像大小為原始大小的 50%，可以根據需要調整百分比或使用具體的像素值 */
+  margin-bottom: 10px;
+  /* border: 1px solid red; */
+}
+.calendar > .day.Confirmed {
+  background-image: url("./img/dot-circle.png");
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: 30%; /* 調整圖像大小為原始大小的 50%，可以根據需要調整百分比或使用具體的像素值 */
+  margin-bottom: 10px;
+  /* border: 1px solid blue; */
+}
+.calendar > .day.NotAvailable {
+  background-image: url("./img/circle-phone.png");
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: 30%; /* 調整圖像大小為原始大小的 50%，可以根據需要調整百分比或使用具體的像素值 */
+  margin-bottom: 10px;
+  /* border: 1px solid yellow; */
+}
 .calendar > .day.selected {
-  border: 1px solid var(--blue-grey-100);
+  border: 1px solid red;
+  margin-bottom: 10px;
 }
 .calendar > .day.current {
   color: var(--black-100);
@@ -108,12 +133,13 @@ body {
 }
 .calendar > .day button:hover {
   background: var(--black-400);
-  transition: background 150ms;
+  opacity:0.5
+  /* transition: background 150ms; */
 }
-.calendar > .today {
+/* .calendar > .today {
   background: var(--black-400);
   border-radius: 2px;
-}
+} */
 
 .text-center {
   text-align: center;
