@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Custom Datepicker</title>
+  <link rel="stylesheet" href="https://unpkg.com/vuejs-datepicker/dist/locale/datepicker.zh-Hant.min.js">
+  <link rel="stylesheet" href="datapicker.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/date-fns/1.30.1/date_fns.min.js"></script>
+  
+ 
+</head>
+<body>
+
+<!--
+TODO: 
+* styling
+* add month selector
+* add year selector
+-->
+<div id="app">
+  <p class="text-center">選擇日期: {{ formattedDate }}</p>
+  <calendar v-model="curr" />
+</div>
+
+
+<template id="calendar">
+  <div class="calendar">
+  <header class="header">
+    <button @click="previousYear">&lt;&lt;</button>
+    <button @click="previousMonth">&lt;</button>
+    <span>{{ currentMonthLabel }} {{ currentYear }}</span>
+    <button @click="nextMonth">&gt;</button>
+    <button @click="nextYear">&gt;&gt;</button>
+  </header>
+  <div class="headings" v-for="dayLabel in dayLabels">
+    {{ dayLabel }}
+  </div>
+  <div v-for="(day, index) in dates"
+       class="day"
+       :class="dayClassObj(day)">
+    <button @click="setSelectedDate(day)">
+      {{ day.date | formatDateToDay }}
+    </button>
+  </div>
+</div>
+</template>
+
+</body>
+<script src="datapicker.js"></script>
+</html>
