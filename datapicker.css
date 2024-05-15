@@ -48,6 +48,9 @@ body {
   grid-column: 1/span 7;
 }
 .calendar > .header {
+  background: blue;
+  color: white;
+  font-weight: 999;
   padding: 0.75rem;
   font-size: 1.25rem;
   grid-column: 1/span 7;
@@ -58,12 +61,13 @@ body {
 }
 .calendar > .header button {
   border: none;
-  background: var(--white);
+  background: blue;
+  color: white;
   padding: 0.25rem 0.5rem;
 }
 .calendar > .header button:hover {
   cursor: pointer;
-  background: var(--black-400);
+  background: blue;
   transition: background 150ms;
 }
 .calendar > * {
@@ -73,8 +77,13 @@ body {
 }
 .calendar > .day {
   color: var(--black-200);
+  
   font-size: 1rem;
   border-radius: 2px;
+}
+.calendar >.day.non_current{
+  color: red;
+  visibility: hidden;
 }
 .calendar > .day.selected {
   border: 1px solid var(--blue-grey-100);

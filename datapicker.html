@@ -39,7 +39,7 @@ TODO:
   </div>
   <div v-for="(day, index) in dates"
        class="day"
-       :class="dayClassObj(day)">
+       :class="dayClassObj(day)" >
     <button @click="setSelectedDate(day)">
       {{ day.date | formatDateToDay }}
     </button>

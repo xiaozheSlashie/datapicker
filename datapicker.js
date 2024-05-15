@@ -23,7 +23,6 @@ const Calendar = Vue.component('calendar', {
     this.currDateCursor = this.today;
     let currentYear = this.today.getFullYear();
     this.year_labels = Array.from({ length: 10 }, (_, index) => currentYear + index);
-    console.log(this.year_labels)
   },
   props: {
     startDate: {
@@ -32,6 +31,12 @@ const Calendar = Vue.component('calendar', {
     }
   },
   computed: {
+    lastDayOfMonth(){
+        return  new Date(this.currDateCursor.getFullYear(), this.currDateCursor.getMonth() + 1, 0);
+    },
+    lastDay(){
+      return this.lastDayOfMonth.getDate();
+    },
     currentMonth() {
       return this.currDateCursor.getMonth();
     },
@@ -45,17 +50,18 @@ const Calendar = Vue.component('calendar', {
       const cursorDate = this.currDateCursor;
       let startDate = dateFns.startOfMonth(cursorDate);
       const daysNeededForLastMonth = dateFns.getDay(startDate);
-      startDate = dateFns.addDays(startDate, -daysNeededForLastMonth);
+      startDate = dateFns.subDays(startDate, daysNeededForLastMonth);
+      // startDate = dateFns.addDays(startDate, -daysNeededForLastMonth);
+      // console.log(this.lastDay)
       
       // always generate 6 full weeks to keep the formatting consistent
-      let endDate = dateFns.addDays(startDate, 41);
-      
-      return dateFns.eachDay(startDate, endDate).map(date => ({
+      endDate = dateFns.addDays(startDate, this.lastDay+daysNeededForLastMonth-1);
+      return dateFns.eachDay(startDate,endDate).map(date => ({
         date,
         isCurrentMonth:  dateFns.isSameMonth(cursorDate, date),
         isToday: dateFns.isToday(date),
-        isSelected: dateFns.isSameDay(this.selectedDate, date) 
-      
+        isSelected: dateFns.isSameDay(this.selectedDate, date),
+        isnotCurrentMonth:  !dateFns.isSameMonth(cursorDate, date),
       }));
     },
   },
@@ -71,6 +77,7 @@ const Calendar = Vue.component('calendar', {
         'today' : day.isToday,
         'current': day.isCurrentMonth,
         'selected': day.isSelected,
+        'non_current': !day.isCurrentMonth,
       };
     },
     nextMonth() {
